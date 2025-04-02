@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "check": "next lint && tsc --noEmit",
-    "db:seed": "npx tsx --env-file=./.env ./src/server/db/seed/index.ts",
+    "db:seed": "npx tsx --env-file=./.env ./src/db/seed/index.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
