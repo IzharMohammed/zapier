@@ -3,7 +3,7 @@ import { db } from "./db"
 import { zapRuns, zapRunsOutbox } from "./db/schema"
 import { eq, inArray, sql } from "drizzle-orm"
 
-const TOPIC_NAME = "zap-events"
+const TOPIC_NAME = "zap-events";
 
 const kafka = new Kafka({
     clientId: 'processor',
@@ -14,7 +14,7 @@ const producer = kafka.producer()
 
 async function main() {
     await producer.connect()
-    while (1) {
+    while (true) {
 
         const pendingZapRuns = await db.select().from(zapRunsOutbox).limit(10);
 

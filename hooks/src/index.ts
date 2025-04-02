@@ -8,4 +8,4 @@ app.get('/', (req: Request, res: Response) => {
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
-})
+});
