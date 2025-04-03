@@ -5,22 +5,12 @@ import { db } from "../db";
 import { user } from "../db/schema";
 import { and, eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
+import { loginSchema, userSchema } from "../zod-schemas";
 
-export const jwtPassword = process.env.JWT_SECRET || "SecR3t";
+export const jwtPassword = process.env.JWT_SECRET || "superSecret";
 const saltRounds = 10;
 const router = Router();
 
-// Schema Definitions
-const userSchema = z.object({
-    name: z.string(),
-    email: z.string().email({ message: "Invalid email address" }),
-    password: z.string().min(6, { message: "Must be 6 or more characters long" }),
-});
-
-const loginSchema = z.object({
-    email: z.string().email({ message: "Invalid email address" }),
-    password: z.string().min(6, { message: "Must be 6 or more characters long" }),
-});
 
 // Routes
 router.post("/signUp", async (req: Request, res: Response): Promise<any> => {
@@ -61,7 +51,7 @@ router.post("/signUp", async (req: Request, res: Response): Promise<any> => {
     }
 });
 
-router.post("/login", async (req: Request, res: Response) : Promise<any> => {
+router.post("/login", async (req: Request, res: Response): Promise<any> => {
     // Validate input
     const parsedLoginSchema = loginSchema.safeParse(req.body);
     if (!parsedLoginSchema.success) {

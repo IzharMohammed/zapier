@@ -4,21 +4,10 @@ import jwt from "jsonwebtoken"
 import { db } from "../db";
 import { action, availableTriggers, trigger, zap } from "../db/schema";
 import { eq, inArray } from "drizzle-orm";
+import { zapCreateSchema } from "../zod-schemas";
 const jwtPassword = "SecR3t";
 
 const router = Router();
-
-export const zapCreateSchema = z.object({
-    userId: z.number(),
-    triggerId: z.string().uuid(),
-    triggerMetaData: z.any().optional(),
-    actions: z.array(
-        z.object(
-            {
-                actionId: z.string().uuid(),
-                actionMetaData: z.any().optional()
-            }))
-})
 
 router.post("/", async (req: Request, res: Response): Promise<any> => {
 
@@ -39,12 +28,12 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
 
             const zapId = newZap.id
 
-            await tx.insert(trigger).values({ zapId, triggerId }).returning();
+            await tx.insert(trigger).values({ zapId, triggerId, metaData: triggerMetaData }).returning();
 
             await tx.insert(action).values(actions.map((ac, idx) => ({
                 zapId,
                 actionId: ac.actionId,
-                actionMetaData: ac.actionMetaData,
+                metaData: ac.actionMetaData,
                 sortingOrder: idx
             })));
         });
