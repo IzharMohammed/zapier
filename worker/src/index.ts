@@ -7,7 +7,6 @@ const kafka = new Kafka({
     brokers: ['localhost:9092']
 })
 
-
 async function main() {
     const consumer = kafka.consumer({ groupId: 'main-worker' });
     // Consuming

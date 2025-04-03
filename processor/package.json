@@ -25,6 +25,7 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.40.1",
     "kafkajs": "^2.2.4",
