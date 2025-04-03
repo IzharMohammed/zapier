@@ -5,11 +5,12 @@ import { db } from "../db";
 import { action, availableTriggers, trigger, zap } from "../db/schema";
 import { eq, inArray } from "drizzle-orm";
 import { zapCreateSchema } from "../zod-schemas";
+import { authMiddleWare } from "../middlewares";
 const jwtPassword = "SecR3t";
 
 const router = Router();
 
-router.post("/", async (req: Request, res: Response): Promise<any> => {
+router.post("/", authMiddleWare, async (req: Request, res: Response): Promise<any> => {
 
     const parsedData = zapCreateSchema.safeParse(req.body);
 
@@ -45,7 +46,7 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
     }
 });
 
-router.get("/", async (req: Request, res: Response): Promise<any> => {
+router.get("/", authMiddleWare, async (req: Request, res: Response): Promise<any> => {
     try {
         const zaps = await db
             .select({
@@ -83,7 +84,7 @@ router.get("/", async (req: Request, res: Response): Promise<any> => {
     }
 });
 
-router.get("/:zapId", async (req: Request, res: Response): Promise<any> => {
+router.get("/:zapId", authMiddleWare, async (req: Request, res: Response): Promise<any> => {
     const zapId = req.params.zapId;
     try {
         const zapData = await db
