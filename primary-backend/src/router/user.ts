@@ -15,7 +15,6 @@ const router = Router();
 // Routes
 router.post("/signUp", async (req: Request, res: Response): Promise<any> => {
     const { email, password, name } = req.body;
-
     // Validate input
     const signUpResponse = userSchema.safeParse(req.body);
     if (!signUpResponse.success) {
